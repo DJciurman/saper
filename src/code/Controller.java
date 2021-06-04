@@ -1,7 +1,7 @@
 package code;
 
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
 
@@ -13,39 +13,23 @@ public class Controller {
 
     public void showEasyGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
-        Grid grid = new Grid(8);
+        Grid grid = new Grid(8, bottomPane);
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
     }
 
     public void showNormalGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
-        Grid grid = new Grid(16);
+        Grid grid = new Grid(16, bottomPane);
         mainPane.getChildren().add(grid);
-
+        bottomPane.getChildren().add(Images.getSmilingFace());
     }
 
     public void showHardGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
-        Grid grid = new Grid(24);
+        Grid grid = new Grid(24, bottomPane);
         mainPane.getChildren().add(grid);
-
-    }
-
-    public void showSmilingFace(MouseEvent mouseEvent) {
-        bottomPane.getChildren().clear();
         bottomPane.getChildren().add(Images.getSmilingFace());
     }
-
-    public void showScaredFace(ActionEvent actionEvent) {
-        bottomPane.getChildren().clear();
-        bottomPane.getChildren().add(Images.getScaredFace());
-    }
-
-    public void showGameOverFace(ActionEvent actionEvent) {
-        bottomPane.getChildren().clear();
-        bottomPane.getChildren().add(Images.getGameOverFace());
-    }
-
 
 }
