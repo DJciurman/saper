@@ -27,4 +27,13 @@ public class Field extends Button {
     public int getNumber() {
         return number;
     }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
 }

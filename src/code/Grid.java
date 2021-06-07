@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 public class Grid extends GridPane {
+
     private int size;
     private StackPane bottomPane;
     private int flagCounter;
@@ -72,6 +73,10 @@ public class Grid extends GridPane {
 
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
+    }
+
+    public int getSize() {
+        return size;
     }
 
 }
