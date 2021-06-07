@@ -13,7 +13,6 @@ public class Grid extends GridPane {
     private StackPane bottomPane;
     private int flagCounter;
     private Label leftCounter;
-    private Stopwatch stopwatch
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -24,9 +23,14 @@ public class Grid extends GridPane {
         this.leftCounter.setText("" + flagCounter);
         this.leftCounter.setFont(Font.font("Arial", 24));
         this.leftCounter.setVisible(true);
+
+        Operations operations = new Operations(size);
+        int[][] table = new int[size][size];
+        table = operations.randomizer();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Field field = new Field(3);
+                Field field = new Field(table[i][j]);
+
 
                 field.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton() == MouseButton.SECONDARY) {
@@ -38,7 +42,6 @@ public class Grid extends GridPane {
                             field.showFlag();
                             flagCounter--;
                             leftCounter.setText(String.valueOf(flagCounter));
-
                         }
                     } else {
                         if (field.getNumber() == -1) {
@@ -67,6 +70,7 @@ public class Grid extends GridPane {
                     bottomPane.getChildren().add(leftCounter);
                     bottomPane.getChildren().add(Images.getSmilingFace());
                 });
+
                 this.add(field, i, j);
             }
         }
