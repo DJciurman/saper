@@ -13,6 +13,7 @@ public class Controller {
 
     public void showEasyGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
+        bottomPane.getChildren().clear();
         Grid grid = new Grid(8, bottomPane);
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
@@ -20,6 +21,7 @@ public class Controller {
 
     public void showNormalGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
+        bottomPane.getChildren().clear();
         Grid grid = new Grid(16, bottomPane);
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
@@ -27,6 +29,7 @@ public class Controller {
 
     public void showHardGrid(ActionEvent actionEvent) {
         mainPane.getChildren().clear();
+        bottomPane.getChildren().clear();
         Grid grid = new Grid(24, bottomPane);
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());

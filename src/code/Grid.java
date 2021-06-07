@@ -12,6 +12,7 @@ public class Grid extends GridPane {
     private StackPane bottomPane;
     private int flagCounter;
     private Label leftCounter;
+    private Stopwatch stopwatch
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
