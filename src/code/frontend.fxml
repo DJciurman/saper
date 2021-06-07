@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Gra">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Nowa gra" />
+                        <MenuItem mnemonicParsing="false" text="Zakończ grę" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Poziom trudności">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showEasyGrid" text="Łatwy" />
+                        <MenuItem mnemonicParsing="false" onAction="#showNormalGrid" text="Normalny" />
+                        <MenuItem mnemonicParsing="false" onAction="#showHardGrid" text="Trudny" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Pomoc">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Zasady" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+   <center>
+      <StackPane fx:id="mainPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <StackPane fx:id="bottomPane" prefHeight="70.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="60.0" right="60.0" />
+         </BorderPane.margin></StackPane>
+   </bottom>
+</BorderPane>
