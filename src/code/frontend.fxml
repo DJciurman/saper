@@ -10,8 +10,8 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Gra">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Nowa gra" />
-                        <MenuItem mnemonicParsing="false" text="Zakończ grę" />
+                        <MenuItem mnemonicParsing="false" onAction="#newGame" text="Nowa gra" />
+                        <MenuItem mnemonicParsing="false" onAction="#endGame" text="Zakończ grę" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Poziom trudności">
@@ -23,17 +23,17 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Pomoc">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Zasady" />
+                        <MenuItem mnemonicParsing="false" onAction="#rules" text="Zasady" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
    <center>
-      <StackPane fx:id="mainPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="700.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <StackPane fx:id="bottomPane" prefHeight="70.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="bottomPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets left="60.0" right="60.0" />
          </BorderPane.margin></StackPane>

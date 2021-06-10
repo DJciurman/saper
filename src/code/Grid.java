@@ -1,6 +1,7 @@
 package code;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -25,7 +26,7 @@ public class Grid extends GridPane {
         this.leftCounter.setVisible(true);
 
         Operations operations = new Operations(size);
-        int[][] table = new int[size][size];
+        int[][] table;
         table = operations.randomizer();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -49,6 +50,10 @@ public class Grid extends GridPane {
                             field.showMine();
                             bottomPane.getChildren().clear();
                             bottomPane.getChildren().add(Images.getGameOverFace());
+                            for (Node node : this.getChildren()) {
+                                Field f = (Field) node;
+                                f.showAllMines();
+                            }
                         } else {
                             if (field.getGraphic() != null) {
                                 field.setGraphic(null);
@@ -56,6 +61,21 @@ public class Grid extends GridPane {
                                 leftCounter.setText(String.valueOf(flagCounter));
                             }
                             field.showNumber();
+
+                            boolean win = true;
+                            for (Node node : this.getChildren()) {
+                                Field f = (Field) node;
+                                if (f.isHidden() && f.getNumber() != -1) {
+                                    win = false;
+                                    break;
+                                }
+                            }
+                            if(win){
+                                for (Node node : this.getChildren()) {
+                                    Field f = (Field) node;
+                                    f.flagAllMines();
+                                }
+                            }
                         }
                     }
                 });
@@ -81,6 +101,15 @@ public class Grid extends GridPane {
 
     public int getSize() {
         return size;
+    }
+
+    public Field getField(int column, int row) {
+        for (Node node : this.getChildren()) {
+            if (GridPane.getColumnIndex(node) == column && GridPane.getRowIndex(node) == row) {
+                return (Field) node;
+            }
+        }
+        return null;
     }
 
 }
