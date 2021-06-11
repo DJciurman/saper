@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
@@ -17,6 +18,11 @@ public class Controller {
     StackPane mainPane;
     @FXML
     StackPane bottomPane;
+    @FXML
+    Button newGameButton;
+    @FXML
+    Button endGameButton;
+
     GameMode gameMode;
 
     enum GameMode {
@@ -49,8 +55,8 @@ public class Controller {
     public void showEasyGrid(ActionEvent actionEvent) {
         gameMode = GameMode.easy;
         mainPane.getChildren().clear();
-        bottomPane.getChildren().clear();
         Grid grid = new Grid(8, bottomPane);
+        bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
     }
@@ -58,8 +64,8 @@ public class Controller {
     public void showNormalGrid(ActionEvent actionEvent) {
         gameMode = GameMode.normal;
         mainPane.getChildren().clear();
-        bottomPane.getChildren().clear();
         Grid grid = new Grid(16, bottomPane);
+        bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
     }
@@ -67,8 +73,8 @@ public class Controller {
     public void showHardGrid(ActionEvent actionEvent) {
         gameMode = GameMode.hard;
         mainPane.getChildren().clear();
-        bottomPane.getChildren().clear();
         Grid grid = new Grid(24, bottomPane);
+        bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
     }

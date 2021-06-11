@@ -30,12 +30,40 @@
         </MenuBar>
     </top>
    <center>
-      <StackPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="700.0" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#showEasyGrid" text="Łatwy" StackPane.alignment="CENTER">
+               <StackPane.margin>
+                  <Insets right="200.0" />
+               </StackPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#showNormalGrid" text="Normalny" />
+            <Button mnemonicParsing="false" onAction="#showHardGrid" text="Trudny">
+               <StackPane.margin>
+                  <Insets left="200.0" />
+               </StackPane.margin>
+            </Button>
+            <TextField alignment="CENTER" editable="false" maxWidth="-Infinity" prefWidth="200.0" text="Wybierz tryb gry">
+               <StackPane.margin>
+                  <Insets bottom="70.0" />
+               </StackPane.margin>
+            </TextField>
+         </children></StackPane>
    </center>
    <bottom>
-      <StackPane fx:id="bottomPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="bottomPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets left="60.0" right="60.0" />
-         </BorderPane.margin></StackPane>
+         </BorderPane.margin>
+         <children>
+            <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#newGame" text="Nowa gra" visible="false" StackPane.alignment="TOP_CENTER">
+               <StackPane.margin>
+                  <Insets right="80.0" />
+               </StackPane.margin></Button>
+            <Button fx:id="endGameButton" mnemonicParsing="false" onAction="#endGame" text="Koniec gry" visible="false" StackPane.alignment="TOP_CENTER">
+               <StackPane.margin>
+                  <Insets left="80.0" />
+               </StackPane.margin></Button>
+         </children></StackPane>
    </bottom>
 </BorderPane>

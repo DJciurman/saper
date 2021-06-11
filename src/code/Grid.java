@@ -1,7 +1,9 @@
 package code;
 
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -14,6 +16,9 @@ public class Grid extends GridPane {
     private StackPane bottomPane;
     private int flagCounter;
     private Label leftCounter;
+    boolean gameOver;
+    Button newGameButton;
+    Button endGameButton;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -24,7 +29,14 @@ public class Grid extends GridPane {
         this.leftCounter.setText("" + flagCounter);
         this.leftCounter.setFont(Font.font("Arial", 24));
         this.leftCounter.setVisible(true);
+        this.gameOver = false;
+        this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
+        this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
 
+        this.createAndFillGrid();
+    }
+
+    private void createAndFillGrid() {
         Operations operations = new Operations(size);
         int[][] table;
         table = operations.randomizer();
@@ -34,61 +46,71 @@ public class Grid extends GridPane {
 
 
                 field.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                        if (field.getGraphic() != null) {
-                            field.setGraphic(null);
-                            flagCounter++;
-                            leftCounter.setText(String.valueOf(flagCounter));
-                        } else if (field.getText() == null && flagCounter != 0) {
-                            field.showFlag();
-                            flagCounter--;
-                            leftCounter.setText(String.valueOf(flagCounter));
-                        }
-                    } else {
-                        if (field.getNumber() == -1) {
-                            field.setGraphic(null);
-                            field.showMine();
-                            bottomPane.getChildren().clear();
-                            bottomPane.getChildren().add(Images.getGameOverFace());
-                            for (Node node : this.getChildren()) {
-                                Field f = (Field) node;
-                                f.showAllMines();
-                            }
-                        } else {
+                    if (!gameOver) {
+                        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                             if (field.getGraphic() != null) {
                                 field.setGraphic(null);
                                 flagCounter++;
                                 leftCounter.setText(String.valueOf(flagCounter));
+                            } else if (field.getText() == null && flagCounter != 0) {
+                                field.showFlag();
+                                flagCounter--;
+                                leftCounter.setText(String.valueOf(flagCounter));
                             }
-                            field.showNumber();
-
-                            boolean win = true;
-                            for (Node node : this.getChildren()) {
-                                Field f = (Field) node;
-                                if (f.isHidden() && f.getNumber() != -1) {
-                                    win = false;
-                                    break;
-                                }
-                            }
-                            if(win){
+                        } else {
+                            if (field.getNumber() == -1) {
+                                field.setGraphic(null);
+                                field.showMine();
+                                bottomPane.getChildren().clear();
+                                bottomPane.getChildren().add(Images.getGameOverFace());
                                 for (Node node : this.getChildren()) {
                                     Field f = (Field) node;
-                                    f.flagAllMines();
+                                    f.showAllMines();
                                 }
+                                newGameButton.setVisible(true);
+                                endGameButton.setVisible(true);
+                                bottomPane.getChildren().add(newGameButton);
+                                bottomPane.getChildren().add(endGameButton);
+                                gameOver = true;
+                            } else {
+                                if (field.getGraphic() == null) {
+                                    field.showNumber();
+
+                                    boolean win = true;
+                                    for (Node node : this.getChildren()) {
+                                        Field f = (Field) node;
+                                        if (f.isHidden() && f.getNumber() != -1) {
+                                            win = false;
+                                            break;
+                                        }
+                                    }
+                                    if (win) {
+                                        for (Node node : this.getChildren()) {
+                                            Field f = (Field) node;
+                                            f.flagAllMines();
+                                        }
+                                    }
+                                }
+
+
                             }
                         }
                     }
                 });
 
                 field.setOnMousePressed(mouseEvent -> {
-                    bottomPane.getChildren().clear();
-                    bottomPane.getChildren().add(leftCounter);
-                    bottomPane.getChildren().add(Images.getScaredFace());
+                    if (!gameOver) {
+                        bottomPane.getChildren().clear();
+                        bottomPane.getChildren().add(leftCounter);
+                        bottomPane.getChildren().add(Images.getScaredFace());
+                    }
                 });
                 field.setOnMouseReleased(mouseEvent -> {
-                    bottomPane.getChildren().clear();
-                    bottomPane.getChildren().add(leftCounter);
-                    bottomPane.getChildren().add(Images.getSmilingFace());
+                    if (!gameOver) {
+                        bottomPane.getChildren().clear();
+                        bottomPane.getChildren().add(leftCounter);
+                        bottomPane.getChildren().add(Images.getSmilingFace());
+                    }
                 });
 
                 this.add(field, i, j);

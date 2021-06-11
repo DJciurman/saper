@@ -32,20 +32,21 @@ public class Field extends Button {
             showMine();
     }
 
-    public int getNumber() {
-        return number;
-    }
 
     public void setNumber(int number) {
         this.number = number;
     }
 
-    public void flagAllMines(){
-        if(number == -1)
+    public void flagAllMines() {
+        if (number == -1)
             showFlag();
     }
 
     public boolean isHidden() {
         return hidden;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }
