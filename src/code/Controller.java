@@ -51,6 +51,14 @@ public class Controller {
         stage.show();
     }
 
+    public void creators(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Creators.fxml"));
+        stage.setTitle("Twórcy");
+        stage.setScene(new Scene(root, 600, 400));
+        stage.show();
+    }
+
     public void showEasyGrid(ActionEvent actionEvent) {
         gameMode = GameMode.easy;
         mainPane.getChildren().clear();
@@ -84,5 +92,21 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
+    public void saveGame(ActionEvent actionEvent){
+
+    }
+
+    public void loadGame(ActionEvent actionEvent){
+        //ładowanie pliku
+
+        //gamemode = załadowany gamemode
+        mainPane.getChildren().clear();
+        //Grid grid = załadowany grid
+        bottomPane.getChildren().clear();
+        //mainPane.getChildren().add(grid);
+        bottomPane.getChildren().add(Images.getSmilingFace());
+        bottomPane.getChildren().add(newGameButton);
+        bottomPane.getChildren().add(endGameButton);
+    }
 
 }
