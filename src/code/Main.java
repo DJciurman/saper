@@ -4,15 +4,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("frontend.fxml"));
         primaryStage.setTitle("Saper");
-        primaryStage.setScene(new Scene(root, 700, 769));
+        primaryStage.setScene(new Scene(root, 700, 700));
+        primaryStage.getIcons().add(new Image("file:././mine.png"));
         primaryStage.show();
     }
 
