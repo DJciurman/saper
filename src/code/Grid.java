@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 public class Grid extends GridPane {
@@ -17,8 +18,8 @@ public class Grid extends GridPane {
     private int flagCounter;
     private Label leftCounter;
     boolean gameOver;
-    Button newGameButton;
-    Button endGameButton;
+    static Button newGameButton;
+    static Button endGameButton;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -29,6 +30,7 @@ public class Grid extends GridPane {
         this.leftCounter.setText("" + flagCounter);
         this.leftCounter.setFont(Font.font("Arial", 24));
         this.leftCounter.setVisible(true);
+        this.leftCounter.setTextFill(Paint.valueOf("#991f00"));
         this.gameOver = false;
         this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
         this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
@@ -37,6 +39,7 @@ public class Grid extends GridPane {
     }
 
     private void createAndFillGrid() {
+
         Operations operations = new Operations(size);
         int[][] table;
         table = operations.randomizer();
@@ -57,7 +60,7 @@ public class Grid extends GridPane {
                                 flagCounter--;
                                 leftCounter.setText(String.valueOf(flagCounter));
                             }
-                        } else {
+                        } else if (field.getGraphic() == null) {
                             if (field.getNumber() == -1) {
                                 field.setGraphic(null);
                                 field.showMine();
@@ -73,23 +76,22 @@ public class Grid extends GridPane {
                                 bottomPane.getChildren().add(endGameButton);
                                 gameOver = true;
                             } else {
-                                if (field.getGraphic() == null) {
-                                    field.showNumber();
+                                field.showNumber();
 
-                                    boolean win = true;
+                                boolean win = true;
+                                for (Node node : this.getChildren()) {
+                                    Field f = (Field) node;
+                                    if (f.isHidden() && f.getNumber() != -1) {
+                                        win = false;
+                                        break;
+                                    }
+                                }
+                                if (win) {
                                     for (Node node : this.getChildren()) {
                                         Field f = (Field) node;
-                                        if (f.isHidden() && f.getNumber() != -1) {
-                                            win = false;
-                                            break;
-                                        }
+                                        f.flagAllMines();
                                     }
-                                    if (win) {
-                                        for (Node node : this.getChildren()) {
-                                            Field f = (Field) node;
-                                            f.flagAllMines();
-                                        }
-                                    }
+
                                 }
 
 
@@ -116,7 +118,8 @@ public class Grid extends GridPane {
                 this.add(field, i, j);
             }
         }
-
+        newGameButton.setVisible(false);
+        endGameButton.setVisible(false);
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
     }

@@ -3,8 +3,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #919191;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -32,21 +33,33 @@
    <center>
       <StackPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#showEasyGrid" text="Łatwy" StackPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#showEasyGrid" style="-fx-background-color: #00ff99;" text="Łatwy" StackPane.alignment="CENTER">
                <StackPane.margin>
                   <Insets right="200.0" />
                </StackPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showNormalGrid" text="Normalny" />
-            <Button mnemonicParsing="false" onAction="#showHardGrid" text="Trudny">
+            <Button mnemonicParsing="false" onAction="#showNormalGrid" style="-fx-background-color: #ffcc66;" text="Normalny">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#showHardGrid" style="-fx-background-color: #ff0000;" text="Trudny">
                <StackPane.margin>
                   <Insets left="200.0" />
                </StackPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Button>
-            <TextField alignment="CENTER" editable="false" maxWidth="-Infinity" prefWidth="200.0" text="Wybierz tryb gry">
+            <TextField alignment="CENTER" editable="false" maxWidth="-Infinity" prefWidth="250.0" style="-fx-background-color: #cccccc;" text="Wybierz tryb gry">
                <StackPane.margin>
-                  <Insets bottom="70.0" />
+                  <Insets bottom="150.0" />
                </StackPane.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
             </TextField>
          </children></StackPane>
    </center>
