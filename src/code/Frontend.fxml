@@ -12,6 +12,8 @@
                 <Menu mnemonicParsing="false" text="Gra">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#newGame" text="Nowa gra" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Zapisz grę" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadGame" text="Wczytaj grę" />
                         <MenuItem mnemonicParsing="false" onAction="#endGame" text="Zakończ grę" />
                     </items>
                 </Menu>
@@ -25,6 +27,7 @@
                 <Menu mnemonicParsing="false" text="Pomoc">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#rules" text="Zasady" />
+                  <MenuItem mnemonicParsing="false" onAction="#creators" text="Twórcy" />
                     </items>
                 </Menu>
             </menus>
@@ -33,7 +36,7 @@
    <center>
       <StackPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#showEasyGrid" style="-fx-background-color: #00ff99;" text="Łatwy" StackPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#showEasyGrid" style="-fx-background-color: #00ff99;" text="Magister" StackPane.alignment="CENTER">
                <StackPane.margin>
                   <Insets right="200.0" />
                </StackPane.margin>
@@ -41,11 +44,11 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showNormalGrid" style="-fx-background-color: #ffcc66;" text="Normalny">
+            <Button mnemonicParsing="false" onAction="#showNormalGrid" style="-fx-background-color: #ffcc66;" text="Doktor">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button mnemonicParsing="false" onAction="#showHardGrid" style="-fx-background-color: #ff0000;" text="Trudny">
+            <Button mnemonicParsing="false" onAction="#showHardGrid" style="-fx-background-color: #ff0000;" text="Profesor">
                <StackPane.margin>
                   <Insets left="200.0" />
                </StackPane.margin>
@@ -53,7 +56,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextField alignment="CENTER" editable="false" maxWidth="-Infinity" prefWidth="250.0" style="-fx-background-color: #cccccc;" text="Wybierz tryb gry">
+            <TextField alignment="CENTER" editable="false" maxWidth="-Infinity" prefWidth="250.0" style="-fx-background-color: #cccccc;" text="Wybierz poziom gry">
                <StackPane.margin>
                   <Insets bottom="150.0" />
                </StackPane.margin>
