@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 public class Field extends Button {
     private int number;
     private boolean hidden;
+    private int xValue;
+    private int yValue;
 
     public Field(int value) {
         this.setMinSize(15.0, 15.0);
@@ -32,7 +34,6 @@ public class Field extends Button {
             showMine();
     }
 
-
     public void setNumber(int number) {
         this.number = number;
     }
@@ -48,5 +49,21 @@ public class Field extends Button {
 
     public int getNumber() {
         return number;
+    }
+
+    public void setxValue(int xValue) {
+        this.xValue = xValue;
+    }
+
+    public void setyValue(int yValue) {
+        this.yValue = yValue;
+    }
+
+    public int getxValue() {
+        return xValue;
+    }
+
+    public int getyValue() {
+        return yValue;
     }
 }

@@ -1,6 +1,5 @@
 package code;
 
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,20 +10,25 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
-public class Grid extends GridPane {
+public class Grid extends GridPane implements GridInterface{
 
     private int size;
     private StackPane bottomPane;
     private int flagCounter;
     private Label leftCounter;
-    boolean gameOver;
-    static Button newGameButton;
-    static Button endGameButton;
+    private boolean gameOver;
+    private Button newGameButton;
+    private Button endGameButton;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
         this.bottomPane = bottomPane;
-        this.flagCounter = size;
+        if(size == 8)
+            flagCounter = 10;
+        else if(size == 16)
+            flagCounter = 40;
+        else
+            flagCounter = 99;
         this.setAlignment(Pos.CENTER);
         this.leftCounter = new Label();
         this.leftCounter.setText("" + flagCounter);
@@ -122,12 +126,15 @@ public class Grid extends GridPane {
         endGameButton.setVisible(false);
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
+
     }
 
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public Field getField(int column, int row) {
         for (Node node : this.getChildren()) {
             if (GridPane.getColumnIndex(node) == column && GridPane.getRowIndex(node) == row) {

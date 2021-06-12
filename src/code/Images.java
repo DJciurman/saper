@@ -10,6 +10,7 @@ public class Images {
     private final static Image smilingFace = new Image("file:././SmilingFace.png");
     private final static Image flag = new Image("file:././Flag.png");
 
+
     public static ImageView getMineImage() {
         ImageView mineImage = new ImageView(mine);
         mineImage.setPreserveRatio(true);
