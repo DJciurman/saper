@@ -8,21 +8,14 @@ public class Field extends Button {
     private int xValue;
     private int yValue;
 
-    public Field(int value) {
+    public Field(int value, int xValue, int yValue) {
         this.setMinSize(15.0, 15.0);
         this.setPrefSize(25.0, 25.0);
         this.number = value;
+        this.xValue = xValue;
+        this.yValue = yValue;
         this.setText(null);
         hidden = true;
-    }
-
-    @Override
-    public void fire() {
-        if (number == -1)
-            showMine();
-        else
-            showNumber();
-        hidden = false;
     }
 
     public void showMine() {
