@@ -30,6 +30,13 @@ public class Controller {
         hard
     }
 
+    private static class SaveLoadManager{
+
+        public static void loadGame() throws SaveFileNotFoundException{
+
+        }
+    }
+
     public void newGame(ActionEvent actionEvent) {
         if (gameMode == GameMode.easy)
             showEasyGrid(actionEvent);
@@ -97,16 +104,19 @@ public class Controller {
     }
 
     public void loadGame(ActionEvent actionEvent){
-        //ładowanie pliku
+        try {
+            SaveLoadManager.loadGame();
+            //gamemode = załadowany gamemode
+            mainPane.getChildren().clear();
+            //Grid grid = załadowany grid
+            bottomPane.getChildren().clear();
+            //mainPane.getChildren().add(grid);
+            bottomPane.getChildren().add(Images.getSmilingFace());
+            bottomPane.getChildren().add(newGameButton);
+            bottomPane.getChildren().add(endGameButton);
+        } catch(SaveFileNotFoundException exception){
 
-        //gamemode = załadowany gamemode
-        mainPane.getChildren().clear();
-        //Grid grid = załadowany grid
-        bottomPane.getChildren().clear();
-        //mainPane.getChildren().add(grid);
-        bottomPane.getChildren().add(Images.getSmilingFace());
-        bottomPane.getChildren().add(newGameButton);
-        bottomPane.getChildren().add(endGameButton);
+        }
     }
 
 }
