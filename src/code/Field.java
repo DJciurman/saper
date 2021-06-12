@@ -16,15 +16,6 @@ public class Field extends Button {
         hidden = true;
     }
 
-    @Override
-    public void fire() {
-        if (number == -1)
-            showMine();
-        else
-            showNumber();
-        hidden = false;
-    }
-
     public void showMine() {
         this.setGraphic(Images.getMineImage());
     }

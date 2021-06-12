@@ -30,10 +30,10 @@ public class Controller {
         hard
     }
 
-    private static class SaveLoadManager{
+    private static class SaveLoadManager {
 
-        public static void loadGame() throws SaveFileNotFoundException{
-
+        public static void loadGame(Grid grid, GameMode gameMode) throws SaveFileNotFoundException {
+            throw new SaveFileNotFoundException();
         }
     }
 
@@ -99,13 +99,14 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
-    public void saveGame(ActionEvent actionEvent){
+    public void saveGame(ActionEvent actionEvent) {
 
     }
 
-    public void loadGame(ActionEvent actionEvent){
+    public void loadGame(ActionEvent actionEvent) throws IOException {
         try {
-            SaveLoadManager.loadGame();
+            Grid grid = null;
+            SaveLoadManager.loadGame(grid, gameMode);
             //gamemode = załadowany gamemode
             mainPane.getChildren().clear();
             //Grid grid = załadowany grid
@@ -114,8 +115,12 @@ public class Controller {
             bottomPane.getChildren().add(Images.getSmilingFace());
             bottomPane.getChildren().add(newGameButton);
             bottomPane.getChildren().add(endGameButton);
-        } catch(SaveFileNotFoundException exception){
-
+        } catch (SaveFileNotFoundException exception) {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("ErrorWindow.fxml"));
+            stage.setTitle("Błąd");
+            stage.setScene(new Scene(root, 320, 100));
+            stage.show();
         }
     }
 
