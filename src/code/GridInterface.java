@@ -1,9 +1,9 @@
 package code;
 
 public interface GridInterface {
-    public int getSize();
+    int getSize();
 
-    public Field getField(int column, int row);
+    Field getField(int column, int row);
 
 
 }

@@ -19,6 +19,7 @@ public class Grid extends GridPane implements GridInterface{
     private boolean gameOver;
     private Button newGameButton;
     private Button endGameButton;
+    private Field[][] fields;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -39,6 +40,8 @@ public class Grid extends GridPane implements GridInterface{
         this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
         this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
 
+         fields = new Field[size][size];
+
         this.createAndFillGrid();
     }
 
@@ -49,7 +52,9 @@ public class Grid extends GridPane implements GridInterface{
         table = operations.randomizer();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Field field = new Field(table[i][j]);
+                Field field = new Field(table[i][j], i, j);
+                fields[i][j] = field;
+
 
 
                 field.setOnMouseClicked(mouseEvent -> {
@@ -80,7 +85,8 @@ public class Grid extends GridPane implements GridInterface{
                                 bottomPane.getChildren().add(endGameButton);
                                 gameOver = true;
                             } else {
-                                field.showNumber();
+                                showAllNulls(field.getxValue(), field.getyValue());
+                                //field.showNumber();
 
                                 boolean win = true;
                                 for (Node node : this.getChildren()) {
@@ -127,6 +133,36 @@ public class Grid extends GridPane implements GridInterface{
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
 
+    }
+
+    public void showAllNulls(int x, int y)
+    {
+        if (fields[x][y].getNumber() == 0 && fields[x][y].getGraphic() == null)
+        {
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if ((x + i) < 0 || (y + j) < 0)
+                    {
+                        continue;
+                    }
+                    if ((x + i) > (size - 1) || (y + j) > (size - 1))
+                    {
+                        continue;
+                    }
+                    fields[x][y].showNumber();
+                    if (fields[x + i][y + j].isHidden() == true && fields[x + i][y + j].getGraphic() == null)
+                    {
+                        showAllNulls(x + i, y + j);
+                    }
+                }
+            }
+        }
+        else if (fields[x][y].getNumber() > 0 && fields[x][y].getGraphic() == null)
+        {
+            fields[x][y].showNumber();
+        }
     }
 
     @Override
