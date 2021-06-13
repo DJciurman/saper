@@ -28,12 +28,10 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     private static transient Button endGameButton;
     private Field[][] fields;
     private int[][] table;
+    private transient FatherOfGameTime gameTime;
+    private transient Timeline timeline;
+    private int czas;
 
-    private Timeline timeline = new Timeline();
-
-    private int czas = 0;
-
-    private FatherOfGameTime gameTime;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -44,23 +42,34 @@ public class Grid extends GridPane implements GridInterface, Serializable {
             flagCounter = 40;
         else
             flagCounter = 99;
-
-        gameTime = new GameTime(czas);
-
+        this.createTimer();
         this.createFlagCounter();
         this.gameOver = false;
-        this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
-        this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
-
+        this.czas = 0;
+        newGameButton = (Button) bottomPane.lookup("#newGameButton");
+        endGameButton = (Button) bottomPane.lookup("#endGameButton");
         fields = new Field[size][size];
-
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.setAutoReverse(true);
         this.createAndFillGrid();
     }
 
-    private void createFlagCounter() {
+    /**
+     * Tworzy stoper
+     */
+    private void createTimer() {
+        gameTime = new GameTime(czas);
+        timeline = new Timeline();
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setAutoReverse(true);
+        this.rightCounter = new Label();
+        this.rightCounter.setText("" + gameTime);
+        this.rightCounter.setFont(Font.font("Arial", 24));
+        this.rightCounter.setVisible(true);
+        this.rightCounter.setTextFill(Paint.valueOf("#991f00"));
 
+    }
+
+    //tworzy
+    private void createFlagCounter() {
         this.setAlignment(Pos.CENTER);
         this.leftCounter = new Label();
         this.leftCounter.setText("" + flagCounter);
@@ -68,20 +77,11 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         this.leftCounter.setVisible(true);
         this.leftCounter.setTextFill(Paint.valueOf("#991f00"));
 
-        this.rightCounter = new Label();
-        this.rightCounter.setText("" + gameTime);
-        this.rightCounter.setFont(Font.font("Arial", 24));
-        this.rightCounter.setVisible(true);
-        this.rightCounter.setTextFill(Paint.valueOf("#991f00"));
-
-        this.gameOver = false;
-        this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
-        this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
-
     }
 
 
     public void showGridAfterLoad() {
+        createTimer();
         createFlagCounter();
 
 
@@ -102,7 +102,16 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         endGameButton.setVisible(false);
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
+        bottomPane.getChildren().add(rightCounter);
+        bottomPane.setAlignment(rightCounter, Pos.CENTER_RIGHT);
 
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
+            gameTime.incrementCzas();
+            this.czas = gameTime.getCzas();
+            rightCounter.setText("" + gameTime);
+        }));
+
+        timeline.play();
     }
 
     private void createAndFillGrid() {
@@ -114,11 +123,7 @@ public class Grid extends GridPane implements GridInterface, Serializable {
             for (int j = 0; j < size; j++) {
                 Field field = new Field(table[i][j], i, j);
                 fields[i][j] = field;
-
-
                 setMouseEvents(field);
-
-
                 this.add(field, i, j);
             }
         }
@@ -131,6 +136,7 @@ public class Grid extends GridPane implements GridInterface, Serializable {
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
             gameTime.incrementCzas();
+            this.czas = gameTime.getCzas();
             rightCounter.setText("" + gameTime);
         }));
     }
@@ -190,7 +196,7 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                         gameOver = true;
                     } else {
                         showAllNulls(field.getxValue(), field.getyValue());
-                        //field.showNumber();
+
 
                         boolean win = true;
                         for (Node node : this.getChildren()) {
@@ -204,6 +210,11 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                             for (Node node : this.getChildren()) {
                                 Field f = (Field) node;
                                 f.flagAllMines();
+                                newGameButton.setVisible(true);
+                                endGameButton.setVisible(true);
+                                timeline.stop();
+                                showWinLabel();
+                                leftCounter.setText("0");
                             }
 
                         }
@@ -218,13 +229,18 @@ public class Grid extends GridPane implements GridInterface, Serializable {
             if (!gameOver) {
                 bottomPane.getChildren().clear();
                 bottomPane.getChildren().add(leftCounter);
+                bottomPane.getChildren().add(rightCounter);
                 bottomPane.getChildren().add(Images.getScaredFace());
+                timeline.play();
+                bottomPane.getChildren().add(newGameButton);
+                bottomPane.getChildren().add(endGameButton);
             }
         });
         field.setOnMouseReleased(mouseEvent -> {
             if (!gameOver) {
                 bottomPane.getChildren().clear();
                 bottomPane.getChildren().add(leftCounter);
+                bottomPane.getChildren().add(rightCounter);
                 bottomPane.getChildren().add(Images.getSmilingFace());
                 bottomPane.getChildren().add(newGameButton);
                 bottomPane.getChildren().add(endGameButton);
@@ -249,9 +265,17 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     }
 
 
-    public Label getRightCounter()
-    {
+    public Label getRightCounter() {
         return rightCounter;
+    }
+
+    private void showWinLabel() {
+        Label win = new Label();
+        win.setText("GRATULACJE!");
+        win.setFont(Font.font("Bauhaus 93", 36));
+        win.setVisible(true);
+        bottomPane.getChildren().add(win);
+        bottomPane.setAlignment(win, Pos.BOTTOM_CENTER);
     }
 
     @Override

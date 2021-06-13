@@ -1,6 +1,9 @@
 package code;
 
-public class GameTime extends FatherOfGameTime
+import java.io.Serializable;
+
+public class GameTime extends FatherOfGameTime implements Serializable
+
 {
     public GameTime(int czas)
     {
