@@ -2,20 +2,36 @@ package code;
 
 import javafx.scene.control.Button;
 
-public class Field extends Button {
+import java.io.Serializable;
+
+public class Field extends Button implements Serializable {
     private int number;
     private boolean hidden;
+    private boolean flag;
     private int xValue;
     private int yValue;
 
     public Field(int value, int xValue, int yValue) {
-        this.setMinSize(15.0, 15.0);
-        this.setPrefSize(25.0, 25.0);
+        correctFieldParameters();
         this.number = value;
         this.xValue = xValue;
         this.yValue = yValue;
+        this.hidden = true;
+        this.flag = false;
+    }
+
+    public void correctFieldParameters(){
+        this.setMinSize(15.0, 15.0);
+        this.setPrefSize(25.0, 25.0);
         this.setText(null);
-        hidden = true;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
     public void showMine() {
@@ -47,6 +63,10 @@ public class Field extends Button {
 
     public boolean isHidden() {
         return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public int getNumber() {

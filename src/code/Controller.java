@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Controller {
     @FXML
@@ -23,6 +23,7 @@ public class Controller {
     Button endGameButton;
 
     GameMode gameMode;
+    Grid grid;
 
     enum GameMode {
         easy,
@@ -32,8 +33,21 @@ public class Controller {
 
     private static class SaveLoadManager {
 
-        public static void loadGame(Grid grid, GameMode gameMode) throws SaveFileNotFoundException {
-            throw new SaveFileNotFoundException();
+        public static void saveGame(Grid gridToSave) throws IOException {
+            if (!gridToSave.isGameOver()) {
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("savedGame.dat"));
+                objectOutputStream.writeObject(gridToSave);
+                objectOutputStream.close();
+            }
+        }
+
+        public static Grid loadGame() throws SaveFileNotFoundException {
+            try {
+                ObjectInputStream objectInputStream = new ObjectInputStream((new FileInputStream("savedGame.dat")));
+                return (Grid) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException exception) {
+                throw new SaveFileNotFoundException();
+            }
         }
     }
 
@@ -69,7 +83,7 @@ public class Controller {
     public void showEasyGrid(ActionEvent actionEvent) {
         gameMode = GameMode.easy;
         mainPane.getChildren().clear();
-        Grid grid = new Grid(8, bottomPane);
+        grid = new Grid(8, bottomPane);
         bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
@@ -80,7 +94,7 @@ public class Controller {
     public void showNormalGrid(ActionEvent actionEvent) {
         gameMode = GameMode.normal;
         mainPane.getChildren().clear();
-        Grid grid = new Grid(16, bottomPane);
+        grid = new Grid(16, bottomPane);
         bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
@@ -91,7 +105,7 @@ public class Controller {
     public void showHardGrid(ActionEvent actionEvent) {
         gameMode = GameMode.hard;
         mainPane.getChildren().clear();
-        Grid grid = new Grid(24, bottomPane);
+        grid = new Grid(24, bottomPane);
         bottomPane.getChildren().clear();
         mainPane.getChildren().add(grid);
         bottomPane.getChildren().add(Images.getSmilingFace());
@@ -99,19 +113,31 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
-    public void saveGame(ActionEvent actionEvent) {
-
+    public void saveGame(ActionEvent actionEvent) throws IOException {
+        SaveLoadManager.saveGame(grid);
     }
 
     public void loadGame(ActionEvent actionEvent) throws IOException {
         try {
-            Grid grid = null;
-            SaveLoadManager.loadGame(grid, gameMode);
-            //gamemode = załadowany gamemode
+            grid = SaveLoadManager.loadGame();
+            switch (grid.getSize()) {
+                case 8:
+                    gameMode = GameMode.easy;
+                    break;
+
+                case 16:
+                    gameMode = GameMode.normal;
+                    break;
+
+                case 24:
+                    gameMode = GameMode.hard;
+                    break;
+            }
             mainPane.getChildren().clear();
-            //Grid grid = załadowany grid
+            grid.setBottomPane(bottomPane);
             bottomPane.getChildren().clear();
-            //mainPane.getChildren().add(grid);
+            grid.showGridAfterLoad();
+            mainPane.getChildren().add(grid);
             bottomPane.getChildren().add(Images.getSmilingFace());
             bottomPane.getChildren().add(newGameButton);
             bottomPane.getChildren().add(endGameButton);
