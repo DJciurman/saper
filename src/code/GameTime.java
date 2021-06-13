@@ -1,24 +1,13 @@
 package code;
 
-public class GameTime
+public class GameTime extends FatherOfGameTime
 {
-    private int czas;
-
     public GameTime(int czas)
     {
-        this.czas = czas;
+        super(czas);
     }
 
-    public int getCzas()
-    {
-        return czas;
-    }
-
-    public void setCzas(int czas)
-    {
-        this.czas = czas;
-    }
-
+    @Override
     public void incrementCzas()
     {
         this.czas++;

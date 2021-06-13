@@ -26,11 +26,11 @@ public class Grid extends GridPane implements GridInterface{
     private Button endGameButton;
     private Field[][] fields;
 
-    private final Timeline timeline = new Timeline();
+    private Timeline timeline = new Timeline();
 
     private int czas = 0;
 
-    private GameTime gameTime;
+    private FatherOfGameTime gameTime;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -163,8 +163,8 @@ public class Grid extends GridPane implements GridInterface{
         bottomPane.setAlignment(rightCounter, Pos.CENTER_RIGHT);
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
-            rightCounter.setText("" + gameTime);
             gameTime.incrementCzas();
+            rightCounter.setText("" + gameTime);
         }));
     }
 
