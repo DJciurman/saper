@@ -28,9 +28,10 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     private static transient Button endGameButton;
     private Field[][] fields;
     private int[][] table;
+    private transient FatherOfGameTime gameTime;
     private transient Timeline timeline;
     private int czas;
-    private transient GameTime gameTime;
+
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;

@@ -2,25 +2,15 @@ package code;
 
 import java.io.Serializable;
 
-public class GameTime implements Serializable
-{
-    private int czas;
+public class GameTime extends FatherOfGameTime implements Serializable
 
+{
     public GameTime(int czas)
     {
-        this.czas = czas;
+        super(czas);
     }
 
-    public int getCzas()
-    {
-        return czas;
-    }
-
-    public void setCzas(int czas)
-    {
-        this.czas = czas;
-    }
-
+    @Override
     public void incrementCzas()
     {
         this.czas++;
