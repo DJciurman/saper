@@ -1,6 +1,8 @@
 package code;
 
-public class GameTime
+import java.io.Serializable;
+
+public class GameTime implements Serializable
 {
     private int czas;
 
