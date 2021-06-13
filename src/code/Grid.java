@@ -30,6 +30,8 @@ public class Grid extends GridPane implements GridInterface{
 
     private int czas = 0;
 
+    private GameTime gameTime;
+
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
         this.bottomPane = bottomPane;
@@ -40,6 +42,8 @@ public class Grid extends GridPane implements GridInterface{
         else
             flagCounter = 99;
 
+        gameTime = new GameTime(czas);
+
         this.setAlignment(Pos.CENTER);
         this.leftCounter = new Label();
         this.leftCounter.setText("" + flagCounter);
@@ -47,7 +51,7 @@ public class Grid extends GridPane implements GridInterface{
         this.leftCounter.setVisible(true);
         this.leftCounter.setTextFill(Paint.valueOf("#991f00"));
         this.rightCounter = new Label();
-        this.rightCounter.setText("" + czas);
+        this.rightCounter.setText("" + gameTime);
         this.rightCounter.setFont(Font.font("Arial", 24));
         this.rightCounter.setVisible(true);
         this.rightCounter.setTextFill(Paint.valueOf("#991f00"));
@@ -158,7 +162,10 @@ public class Grid extends GridPane implements GridInterface{
         bottomPane.getChildren().add(rightCounter);
         bottomPane.setAlignment(rightCounter, Pos.CENTER_RIGHT);
 
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> rightCounter.setText(String.valueOf(++czas))));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
+            rightCounter.setText("" + gameTime);
+            gameTime.incrementCzas();
+        }));
     }
 
     public void showAllNulls(int x, int y)
