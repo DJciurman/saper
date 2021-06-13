@@ -11,9 +11,5 @@ public interface GridInterface {
 
     void setBottomPane(StackPane bottomPane);
 
-    void setNewGameButton(Button newGameButton);
-
-    void setEndGameButton(Button endGameButton);
-
     boolean isGameOver();
 }

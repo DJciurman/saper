@@ -3,6 +3,9 @@ package code;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Klasa do zapewniania grafik i ikonek
+ */
 public class Images {
     private final static Image mine = new Image("file:././mine.png");
     private final static Image gameOverFace = new Image("file:././GameOverFace.png");

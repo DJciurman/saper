@@ -15,7 +15,9 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.Serializable;
-
+/**
+ * Klasa tworząca całą planszę do gry
+ */
 public class Grid extends GridPane implements GridInterface, Serializable {
 
     private int size;
@@ -32,7 +34,11 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     private transient Timeline timeline;
     private int czas;
 
-
+    /**
+     * Tworzenie nowej planszy o określonym rozmiarze oraz dostępie do dolnej belki
+     * @param size rozmiar
+     * @param bottomPane dolna belka
+     */
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
         this.bottomPane = bottomPane;
@@ -68,7 +74,9 @@ public class Grid extends GridPane implements GridInterface, Serializable {
 
     }
 
-    //tworzy
+    /**
+     * Tworzy licznik flag
+     */
     private void createFlagCounter() {
         this.setAlignment(Pos.CENTER);
         this.leftCounter = new Label();
@@ -79,11 +87,12 @@ public class Grid extends GridPane implements GridInterface, Serializable {
 
     }
 
-
+    /**
+     * Metoda pokazująca planszę po wczytaniu gry z pliku
+     */
     public void showGridAfterLoad() {
         createTimer();
         createFlagCounter();
-
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -110,12 +119,13 @@ public class Grid extends GridPane implements GridInterface, Serializable {
             this.czas = gameTime.getCzas();
             rightCounter.setText("" + gameTime);
         }));
-
         timeline.play();
     }
 
+    /**
+     * Tworzy nową planszę
+     */
     private void createAndFillGrid() {
-
         Operations operations = new Operations(size);
 
         table = operations.randomizer();
@@ -141,6 +151,11 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         }));
     }
 
+    /**
+     * Odkrywa na planszy zera oraz inne pola sąsiadujące z klikniętym polem
+     * @param x pozycja X klikniętego pola
+     * @param y pozycja Y klikniętego pola
+     */
     public void showAllNulls(int x, int y) {
         if (fields[x][y].getNumber() == 0 && fields[x][y].getGraphic() == null) {
             for (int i = -1; i < 2; i++) {
@@ -164,6 +179,10 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         }
     }
 
+    /**
+     * Ustawienie wydarzeń na kliknięcia myszką
+     * @param field pole którego dotyczą ustawienia
+     */
     private void setMouseEvents(Field field) {
         field.setOnMouseClicked(mouseEvent -> {
             if (!gameOver) {
@@ -187,7 +206,8 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                         bottomPane.getChildren().add(Images.getGameOverFace());
                         for (Node node : this.getChildren()) {
                             Field f = (Field) node;
-                            f.showAllMines();
+                            if(f.getNumber() == -1)
+                                f.showMine();
                         }
                         newGameButton.setVisible(true);
                         endGameButton.setVisible(true);
@@ -196,8 +216,6 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                         gameOver = true;
                     } else {
                         showAllNulls(field.getxValue(), field.getyValue());
-
-
                         boolean win = true;
                         for (Node node : this.getChildren()) {
                             Field f = (Field) node;
@@ -209,17 +227,15 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                         if (win) {
                             for (Node node : this.getChildren()) {
                                 Field f = (Field) node;
-                                f.flagAllMines();
-                                newGameButton.setVisible(true);
-                                endGameButton.setVisible(true);
-                                timeline.stop();
-                                showWinLabel();
-                                leftCounter.setText("0");
+                                if(f.getNumber() == -1)
+                                    f.showFlag();
                             }
-
+                            newGameButton.setVisible(true);
+                            endGameButton.setVisible(true);
+                            timeline.stop();
+                            showWinLabel();
+                            leftCounter.setText("0");
                         }
-
-
                     }
                 }
             }
@@ -236,6 +252,7 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                 bottomPane.getChildren().add(endGameButton);
             }
         });
+
         field.setOnMouseReleased(mouseEvent -> {
             if (!gameOver) {
                 bottomPane.getChildren().clear();
@@ -249,11 +266,21 @@ public class Grid extends GridPane implements GridInterface, Serializable {
 
     }
 
+    /**
+     * Zwraca rozmiar boku kwadratowej planszy
+     * @return rozmiar boku planszy
+     */
     @Override
     public int getSize() {
         return size;
     }
 
+    /**
+     * Zwraca wskazane pole z planszy
+     * @param column współrzędna X pola
+     * @param row współrzędna Y pola
+     * @return wskazane pole
+     */
     @Override
     public Field getField(int column, int row) {
         for (Node node : this.getChildren()) {
@@ -264,11 +291,9 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         return null;
     }
 
-
-    public Label getRightCounter() {
-        return rightCounter;
-    }
-
+    /**
+     * Pokazuje napis "GRATULACJE!" o określonej stylistyce
+     */
     private void showWinLabel() {
         Label win = new Label();
         win.setText("GRATULACJE!");
@@ -278,6 +303,10 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         bottomPane.setAlignment(win, Pos.BOTTOM_CENTER);
     }
 
+    /**
+     * przypisuje do planszy dolną belkę z parametru
+     * @param bottomPane dolna belka
+     */
     @Override
     public void setBottomPane(StackPane bottomPane) {
         this.bottomPane = bottomPane;
@@ -285,16 +314,10 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
     }
 
-    @Override
-    public void setNewGameButton(Button newGameButton) {
-        this.newGameButton = newGameButton;
-    }
-
-    @Override
-    public void setEndGameButton(Button endGameButton) {
-        this.endGameButton = endGameButton;
-    }
-
+    /**
+     * Sprawdzanei czy gra na tej planszy się zakończyła
+     * @return true jeśli gra się zakończyła, inaczej false
+     */
     @Override
     public boolean isGameOver() {
         return gameOver;

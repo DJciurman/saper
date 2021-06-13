@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+/**
+ * Klasa kontrolująca wydarzenia w głównym oknie
+ */
 public class Controller {
     @FXML
     StackPane mainPane;
@@ -21,18 +24,28 @@ public class Controller {
     Button newGameButton;
     @FXML
     Button endGameButton;
-
     GameMode gameMode;
     Grid grid;
 
+    /**
+     * Enum określający aktualny poziom gry
+     */
     enum GameMode {
         easy,
         normal,
         hard
     }
 
+    /**
+     * Wewnętrzna klasa odpowiadająca za zapisywanie i ładowanie gry
+     */
     private static class SaveLoadManager {
 
+        /**
+         * Zapisuje aktualną grę do pliku .dat
+         * @param gridToSave plansza gry do zapisania
+         * @throws IOException
+         */
         public static void saveGame(Grid gridToSave) throws IOException {
             if (!gridToSave.isGameOver()) {
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("savedGame.dat"));
@@ -41,6 +54,11 @@ public class Controller {
             }
         }
 
+        /**
+         * Ładuje grę z pliku dat
+         * @return załadowana plansza gry
+         * @throws SaveFileNotFoundException
+         */
         public static Grid loadGame() throws SaveFileNotFoundException {
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream((new FileInputStream("savedGame.dat")));
@@ -51,6 +69,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Rozpoczyna nową grę na aktualnie wybranym poziomie
+     * @param actionEvent kliknięcie guzika
+     */
     public void newGame(ActionEvent actionEvent) {
         if (gameMode == GameMode.easy)
             showEasyGrid(actionEvent);
@@ -60,10 +82,19 @@ public class Controller {
             showHardGrid(actionEvent);
     }
 
+    /**
+     * Zamyka program
+     * @param actionEvent kliknięcie guzika
+     */
     public void endGame(ActionEvent actionEvent) {
         Platform.exit();
     }
 
+    /**
+     * Otwiera okno z zasadami
+     * @param actionEvent kliknięcie guzika
+     * @throws IOException
+     */
     public void rules(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Help.fxml"));
@@ -72,6 +103,11 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Otwiera okno z twórcami programu
+     * @param actionEvent kliknięcie guzika
+     * @throws IOException
+     */
     public void creators(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Creators.fxml"));
@@ -80,6 +116,10 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Tworzy nową planszę gry na łatwym poziomie
+     * @param actionEvent kliknięcie guzika
+     */
     public void showEasyGrid(ActionEvent actionEvent) {
         gameMode = GameMode.easy;
         mainPane.getChildren().clear();
@@ -91,6 +131,10 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
+    /**
+     * Tworzy nową planszę gry na normalnym poziomie
+     * @param actionEvent kliknięcie guzika
+     */
     public void showNormalGrid(ActionEvent actionEvent) {
         gameMode = GameMode.normal;
         mainPane.getChildren().clear();
@@ -102,6 +146,10 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
+    /**
+     * Tworzy nową planszę gry na trudnym poziomie
+     * @param actionEvent kliknięcie guzika
+     */
     public void showHardGrid(ActionEvent actionEvent) {
         gameMode = GameMode.hard;
         mainPane.getChildren().clear();
@@ -113,10 +161,20 @@ public class Controller {
         bottomPane.getChildren().add(endGameButton);
     }
 
+    /**
+     * Zapisuje aktualną grę
+     * @param actionEvent kliknięcie guzika
+     * @throws IOException
+     */
     public void saveGame(ActionEvent actionEvent) throws IOException {
         SaveLoadManager.saveGame(grid);
     }
 
+    /**
+     * Ładuje zapisany stan gry
+     * @param actionEvent kliknięcie guzika
+     * @throws IOException
+     */
     public void loadGame(ActionEvent actionEvent) throws IOException {
         try {
             grid = SaveLoadManager.loadGame();
