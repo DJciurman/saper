@@ -1,5 +1,8 @@
 package code;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.io.Serializable;
 
@@ -18,11 +22,18 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     private transient StackPane bottomPane;
     private int flagCounter;
     private transient Label leftCounter;
+    private transient Label rightCounter;
     private boolean gameOver;
     private static transient Button newGameButton;
     private static transient Button endGameButton;
     private Field[][] fields;
     private int[][] table;
+
+    private final Timeline timeline = new Timeline();
+
+    private int czas = 0;
+
+    private GameTime gameTime;
 
     public Grid(int size, StackPane bottomPane) {
         this.size = size;
@@ -33,6 +44,9 @@ public class Grid extends GridPane implements GridInterface, Serializable {
             flagCounter = 40;
         else
             flagCounter = 99;
+
+        gameTime = new GameTime(czas);
+
         this.createFlagCounter();
         this.gameOver = false;
         this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
@@ -40,17 +54,32 @@ public class Grid extends GridPane implements GridInterface, Serializable {
 
         fields = new Field[size][size];
 
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setAutoReverse(true);
         this.createAndFillGrid();
     }
 
     private void createFlagCounter() {
+
         this.setAlignment(Pos.CENTER);
         this.leftCounter = new Label();
         this.leftCounter.setText("" + flagCounter);
         this.leftCounter.setFont(Font.font("Arial", 24));
         this.leftCounter.setVisible(true);
         this.leftCounter.setTextFill(Paint.valueOf("#991f00"));
+
+        this.rightCounter = new Label();
+        this.rightCounter.setText("" + gameTime);
+        this.rightCounter.setFont(Font.font("Arial", 24));
+        this.rightCounter.setVisible(true);
+        this.rightCounter.setTextFill(Paint.valueOf("#991f00"));
+
+        this.gameOver = false;
+        this.newGameButton = (Button) bottomPane.lookup("#newGameButton");
+        this.endGameButton = (Button) bottomPane.lookup("#endGameButton");
+
     }
+
 
     public void showGridAfterLoad() {
         createFlagCounter();
@@ -73,6 +102,7 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         endGameButton.setVisible(false);
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
+
     }
 
     private void createAndFillGrid() {
@@ -85,7 +115,9 @@ public class Grid extends GridPane implements GridInterface, Serializable {
                 Field field = new Field(table[i][j], i, j);
                 fields[i][j] = field;
 
+
                 setMouseEvents(field);
+
 
                 this.add(field, i, j);
             }
@@ -94,7 +126,13 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         endGameButton.setVisible(false);
         bottomPane.getChildren().add(leftCounter);
         bottomPane.setAlignment(leftCounter, Pos.CENTER_LEFT);
+        bottomPane.getChildren().add(rightCounter);
+        bottomPane.setAlignment(rightCounter, Pos.CENTER_RIGHT);
 
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
+            rightCounter.setText("" + gameTime);
+            gameTime.incrementCzas();
+        }));
     }
 
     public void showAllNulls(int x, int y) {
@@ -210,6 +248,12 @@ public class Grid extends GridPane implements GridInterface, Serializable {
         return null;
     }
 
+
+    public Label getRightCounter()
+    {
+        return rightCounter;
+    }
+
     @Override
     public void setBottomPane(StackPane bottomPane) {
         this.bottomPane = bottomPane;
@@ -231,4 +275,5 @@ public class Grid extends GridPane implements GridInterface, Serializable {
     public boolean isGameOver() {
         return gameOver;
     }
+
 }
