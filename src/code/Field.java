@@ -1,6 +1,7 @@
 package code;
 
 import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 
 import java.io.Serializable;
 
@@ -33,9 +34,10 @@ public class Field extends Button implements Serializable {
      * Ustala wymiary i wygląd pola
      */
     public void correctFieldParameters(){
-        this.setMinSize(15.0, 15.0);
-        this.setPrefSize(25.0, 25.0);
+        this.setMinSize(35.0, 35.0);
+        this.setPrefSize(40.0, 40.0);
         this.setText(null);
+        this.setFont(Font.font("Arial", 18));
     }
 
     /**

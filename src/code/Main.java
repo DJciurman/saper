@@ -13,7 +13,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Frontend.fxml"));
         primaryStage.setTitle("Saper");
-        primaryStage.setScene(new Scene(root, 700, 700));
+        primaryStage.setScene(new Scene(root, 1000, 1000));
         primaryStage.getIcons().add(new Image("file:././mine.png"));
         primaryStage.show();
     }

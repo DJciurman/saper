@@ -17,7 +17,7 @@ public class Images {
     public static ImageView getMineImage() {
         ImageView mineImage = new ImageView(mine);
         mineImage.setPreserveRatio(true);
-        mineImage.setFitHeight(22);
+        mineImage.setFitHeight(30);
         return mineImage;
     }
 
@@ -45,7 +45,7 @@ public class Images {
     public static ImageView getFlag() {
         ImageView flagImage = new ImageView(flag);
         flagImage.setPreserveRatio(true);
-        flagImage.setFitHeight(22);
+        flagImage.setFitHeight(30);
         return flagImage;
     }
 
